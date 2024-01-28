@@ -1,7 +1,6 @@
-var kelvin = 273.15;
+var apiKey = "ad3a67673c70bf6e46cfdf36f8a1767d";
 
 async function getCoord(city) {
-    var apiKey = "ad3a67673c70bf6e46cfdf36f8a1767d";
     queryURL = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`;
     return fetch(queryURL)
         .then(function(response) {
@@ -20,7 +19,6 @@ async function currWeather(city) {
     $('#today').empty();
     getCoord(city)
     .then(function(response) {
-        var apiKey = "ad3a67673c70bf6e46cfdf36f8a1767d";
         queryURL = `https://api.openweathermap.org/data/2.5/weather?lat=${response.lat}&lon=${response.lon}&appid=${apiKey}&units=metric`;
         fetch(queryURL)
             .then(function(response) {
@@ -31,9 +29,10 @@ async function currWeather(city) {
                 var currWind = data.wind.speed;
                 var currHumid = data.main.humidity;
                 var icon = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
-                
+                var currDate = dayjs().format('D/M/YYYY');
                 $('#today').append(
                     $('<h3>').text(`${data.name}`).append($('<img>').attr('src', icon)),
+                    $('<div>').text(currDate),
                     $('<div>').text(`Temp: ${currTemp} °C`),
                     $('<div>').text(`Wind: ${currWind} MPH`),
                     $('<div>').text(`Humidity: ${currHumid}%`));
@@ -43,9 +42,9 @@ async function currWeather(city) {
 
 async function forecastWeather(city) {
     $('#forecast-list').empty();
+    var nextDate = 1;
     getCoord(city)
     .then(function(response) {
-        var apiKey = "ad3a67673c70bf6e46cfdf36f8a1767d";
         queryURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${response.lat}&lon=${response.lon}&appid=${apiKey}&units=metric`;
         fetch(queryURL)
             .then(function(response) {
@@ -53,15 +52,15 @@ async function forecastWeather(city) {
             })
             .then(function(data) {
                 console.log(data)
-            
                 for(var i = 7; i < data.cnt; i += 8) {
                     var temp = data.list[i].main.temp;
                     var wind = data.list[i].wind.speed;
                     var humid = data.list[i].main.humidity;
                     var icon = `http://openweathermap.org/img/w/${data.list[i].weather[0].icon}.png`;
-                    console.log(i)
+                    var dates = dayjs(dayjs(dayjs().format()).add(nextDate++, 'd').toString()).format('D/M/YYYY');
+
                     $('#forecast-list').append($('<div>').addClass('col').append(
-                        $('<div>').text(`${data.name}`).append($('<img>').attr('src', icon)),
+                        $('<div>').text(`${dates}`).append($('<img>').attr('src', icon)),
                         $('<div>').text(`Temp: ${temp} °C`),
                         $('<div>').text(`Wind: ${wind} MPH`),
                         $('<div>').text(`Humidity: ${humid}%`)));
