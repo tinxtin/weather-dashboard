@@ -1,8 +1,7 @@
 
-function getCoord(city, state, countryCode) {
-    var apiKey = 'ad3a67673c70bf6e46cfdf36f8a1767d';
-    queryURL = `http://api.openweathermap.org/geo/1.0/direct?q=${city},${state},${countryCode}&limit=1&appid=${apiKey}`
-
+function getCoord(city, countryCode) {
+    var apiKey = "ad3a67673c70bf6e46cfdf36f8a1767d";
+    queryURL = `http://api.openweathermap.org/geo/1.0/direct?q=${city},${countryCode}&limit=1&appid=${apiKey}`;
     return fetch(queryURL)
         .then(function(response) {
             return response.json();
@@ -19,10 +18,8 @@ function getCoord(city, state, countryCode) {
 function currWeatherAPI(location, country) {
     getCoord(location, country)
     .then(function(response) {
-        console.log(response)
-        var apiKey = 'ad3a67673c70bf6e46cfdf36f8a1767d';
-        queryURL = `api.openweathermap.org/data/2.5/forecast?lat=${response.lat}&lon=${response.lon}&appid=${apiKey}`;
-        console.log(queryURL)
+        var apiKey = "ad3a67673c70bf6e46cfdf36f8a1767d";
+        queryURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${response.lat}&lon=${response.lon}&appid=${apiKey}`;
         fetch(queryURL)
             .then(function(response) {
                 return response.json();
@@ -34,7 +31,7 @@ function currWeatherAPI(location, country) {
 
 }
 
-currWeatherAPI('Brighton','england', 'GB');
+currWeatherAPI('Brighton', 'GB');
 
 
 
