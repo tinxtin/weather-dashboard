@@ -79,17 +79,19 @@ async function forecastWeather(city) {
 $('#search-button').on('click', function(event) {
     event.preventDefault();
     
-    var result = $('#search-input').val();
-    if (result === '') {return};
+    var city = $('#search-input').val();
+    if (city === '') {return};
     
     $('#search-input').val('');
-    currWeather(result);
-    forecastWeather(result);
-    saveLocation(result);
+    currWeather(city);
+    forecastWeather(city);
+    saveLocation(city);
 })
 
 
 $(document).on('click', '#history-btn', function() {
-    console.log('test')
+    var city = $(this).attr('data-city');
+    currWeather(city);
+    forecastWeather(city);
 })
 
