@@ -1,8 +1,9 @@
 var apiKey = "ad3a67673c70bf6e46cfdf36f8a1767d";
 
 function saveLocation(result) {
-    $('#history').append($('<button>').text(result).attr({id: 'history-btn', 'data-city': result}))
-    
+    var index = (localStorage.length).toString();
+    $('#history').prepend($('<button>').text(result).attr({id: 'history-btn', 'data-city': result}))
+    localStorage.setItem(index, $('#history-btn').attr('data-city'));
 }
 
 async function getCoord(city) {
@@ -46,7 +47,7 @@ async function currWeather(city) {
 }
 
 async function forecastWeather(city) {
-    $('#forecast').children('h4').empty();
+    $('#forecast').children('h4').remove();
     $('#forecast').prepend($('<h4>').text('5-Day Forecast:'))
     $('#forecast-list').empty();
     var nextDate = 1;
@@ -75,6 +76,15 @@ async function forecastWeather(city) {
     });
 
 }
+
+$(document).ready(function() {
+    if (localStorage.length > 0) {
+        for (var i = 0; i < localStorage.length; i++) { 
+            var city = localStorage.getItem(i);
+            $('#history').prepend($('<button>').text(city).attr({id: 'history-btn', 'data-city': city}))
+        }
+    }
+})
 
 $('#search-button').on('click', function(event) {
     event.preventDefault();
