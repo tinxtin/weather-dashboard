@@ -1,8 +1,8 @@
 var apiKey = "ad3a67673c70bf6e46cfdf36f8a1767d";
 
-function saveLocation(result) {
+function saveLocation(city) {
     var index = (localStorage.length).toString();
-    $('#history').prepend($('<button>').text(result).attr({id: 'history-btn', 'data-city': result}))
+    $('#history').prepend($('<button>').text(city).attr({id: 'history-btn', 'data-city': city}))
     localStorage.setItem(index, $('#history-btn').attr('data-city'));
 }
 
@@ -65,7 +65,6 @@ async function forecastWeather(city) {
                     var humid = data.list[i].main.humidity;
                     var icon = `http://openweathermap.org/img/w/${data.list[i].weather[0].icon}.png`;
                     var dates = dayjs(dayjs(dayjs().format()).add(nextDate++, 'd').toString()).format('D/M/YYYY');
-
                     $('#forecast-list').append($('<div>').addClass('col').append(
                         $('<div>').text(`${dates}`).append($('<img>').attr('src', icon)),
                         $('<div>').text(`Temp: ${temp} °C`),
@@ -88,10 +87,8 @@ $(document).ready(function() {
 
 $('#search-button').on('click', function(event) {
     event.preventDefault();
-    
     var city = $('#search-input').val();
     if (city === '') {return};
-    
     $('#search-input').val('');
     currWeather(city);
     forecastWeather(city);
