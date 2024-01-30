@@ -25,3 +25,4 @@ This is a weather application that takes a name of city and display the current 
 ![](./screenshots/wd-1.png 'weather dashboard')
 
 ## Deployed URL
+URL: https://tinxtin.github.io/weather-dashboard/ 
